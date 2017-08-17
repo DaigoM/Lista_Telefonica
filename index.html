@@ -30,10 +30,12 @@
     </style>   
     <script>
         angular.module("listaTelefonica", ["ngMessages"]);
-        angular.module("listaTelefonica").controller("listaTelefonicaCtrl", function($scope){
+        angular.module("listaTelefonica").controller("listaTelefonicaCtrl", function($scope, $filter){ //$filter ou uppercaseFilter()
             $scope.app = "Lista Telefonica";
             $scope.contatos = [
-                {nome: "Pedro", telefone: "999999999", data: new Date(), cor:"blue"},
+                {nome: $filter('uppercase')("Pedro"), telefone: "999999999", data: new Date(), cor:"blue"},
+                // {nome: "Pedro", telefone: "999999999", data: new Date(), cor:"blue"},
+                // {nome: uppercaseFilter("Pedro"), telefone: "999999999", data: new Date(), cor:"blue"},
                 {nome: "Ana", telefone: "999998877",  data: new Date(), cor:"yellow"},
                 {nome: "Maria", telefone: "999998866", data: new Date(), cor:"red"}
             ];
@@ -78,17 +80,20 @@
                 <th><a href="" ng-click="ordenarPor('telefone')">Telefone</a></th>
                 <th>Operadora</th>
                 <th>Data</th>
-                <th></th>
+                <!-- <th></th> -->
             </tr>
             <tr ng-class="{ 'selecionado negrito': contato.selecionado}" ng-repeat="contato in contatos | filter:criterioDeBusca | orderBy: criterioDeOrdenacao : direcaoDaOrdenacao">
+                <!-- <tr ng-class="{ 'selecionado negrito': contato.selecionado}" ng-repeat="contato in contatos | limitTo:2 | filter:criterioDeBusca | orderBy: criterioDeOrdenacao : direcaoDaOrdenacao"> -->
                 <td><input type="checkbox" ng-model="contato.selecionado"/></td>
-                <td>{{contato.nome | uppercase}}</td>
+                <td>{{contato.nome}}</td>
+                <!-- <td>{{contato.nome | uppercase | limitTo:3}}</td> -->
                 <td>{{contato.telefone}}</td> 
                 <td>{{contato.operadora.nome | lowercase}}</td> 
-                <td>{{contato.data | date:'MMMM EEEE dd/MM/yyyy HH:mm'}}</td>
-                <td>
+                <td>{{contato.data | date:'dd/MM/yyyy HH:mm'}}</td>                
+                <!-- <td>{{contato.data | date:'MMMM EEEE dd/MM/yyyy HH:mm'}}</td> -->
+                <!-- <td>
                     <div style="width: 20px; height: 20px;" ng-style="{'background-color': contato.cor}"></div>
-                </td>
+                </td> -->
                 <!-- <td ng-repeat="(key,value) in contato">
                     {{key + " - " + value}}
                 </td> -->
